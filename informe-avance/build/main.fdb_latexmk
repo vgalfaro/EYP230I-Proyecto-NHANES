@@ -1,13 +1,13 @@
 # Fdb version 3
-["bibtex build/main"] 1779592886 "build/main.aux" "build/main.bbl" "build/main" 1779594447
+["bibtex build/main"] 1779665153 "build/main.aux" "build/main.bbl" "build/main" 1779665154
   "/usr/local/texlive/2022/texmf-dist/bibtex/bst/base/plain.bst" 1292289607 20613 bd3fbfa9f64872b81ac57a0dd2ed855f ""
-  "build/main.aux" 1779594447 1898 f658999df79d8d744f5c7bc066dc3deb "pdflatex"
+  "build/main.aux" 1779665154 1898 7aede2a7e6f89c760c2dd295a2940457 "pdflatex"
   "referencias.bib" 1779591527 373 299f82ee48af96816d11c16272ed0e29 ""
   (generated)
   "build/main.bbl"
   "build/main.blg"
-["pdflatex"] 1779594446 "/Users/vicentealfaro/Documents/Ingenieria/9_semestre/eyp230i/avance-proyecto/main.tex" "build/main.pdf" "main" 1779594447
-  "/Users/vicentealfaro/Documents/Ingenieria/9_semestre/eyp230i/avance-proyecto/main.tex" 1779594445 6662 01baedaca2b518b7da43fb95ff45e0fc ""
+["pdflatex"] 1779665153 "/Users/vicentealfaro/Documents/Ingenieria/9_semestre/eyp230i/EYP230I-Proyecto-NHANES/informe-avance/main.tex" "build/main.pdf" "main" 1779665154
+  "/Users/vicentealfaro/Documents/Ingenieria/9_semestre/eyp230i/EYP230I-Proyecto-NHANES/informe-avance/main.tex" 1779665151 6704 26fc121fe3bc5526b20c1625de26bb8d ""
   "/usr/local/texlive/2022/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2022/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmbsy5.tfm" 1246382020 1120 1e8878807317373affa7f7bba4cf2f6a ""
   "/usr/local/texlive/2022/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmbsy6.tfm" 1246382020 1124 14ccf5552bc7f77ca02a8a402bea8bfb ""
@@ -46,12 +46,10 @@
   "/usr/local/texlive/2022/texmf-dist/fonts/tfm/public/cm/cmsy8.tfm" 1136768653 1120 8b7d695260f3cff42e636090a8002094 ""
   "/usr/local/texlive/2022/texmf-dist/fonts/tfm/public/cm/cmti10.tfm" 1136768653 1480 aa8e34af0eb6a2941b776984cf1dfdc4 ""
   "/usr/local/texlive/2022/texmf-dist/fonts/tfm/public/cm/cmtt10.tfm" 1136768653 768 1321e9409b4137d6fb428ac9dc956269 ""
-  "/usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb" 1248133631 34811 78b52f49e893bcba91bd7581cdc144c0 ""
   "/usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb" 1248133631 32080 340ef9bf63678554ee606688e7b5339d ""
   "/usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb" 1248133631 35752 024fb6c41858982481f6968b5fc26508 ""
   "/usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb" 1248133631 32722 d7379af29a190c3f453aba36302ff5a9 ""
   "/usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb" 1248133631 32362 179c33bbf43f19adbb3825bb4e36e57a ""
-  "/usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb" 1248133631 32762 224316ccc9ad3ca0423a14971cfa7fc1 ""
   "/usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb" 1248133631 37944 359e864bd06cde3b1cf57bb20757fb06 ""
   "/usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb" 1248133631 31099 c85edf1dd5b9e826d67c9c7293b6786c ""
   "/usr/local/texlive/2022/texmf-dist/tex/context/base/mkii/supp-pdf.mkii" 1461363279 71627 94eb9990bed73c364d7f53f960cc8c5b ""
@@ -243,10 +241,10 @@
   "/usr/local/texlive/2022/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1647878959 4410336 7d30a02e9fa9a16d7d1f8d037ba69641 ""
   "/usr/local/texlive/2022/texmf-var/web2c/pdftex/pdflatex.fmt" 1679090322 2826434 b5e9d105a97cff0d0b9e1a1e04ed309f ""
   "/usr/local/texlive/2022/texmf.cnf" 1647878952 577 209b46be99c9075fd74d4c0369380e8c ""
-  "build/main.aux" 1779594447 1898 f658999df79d8d744f5c7bc066dc3deb "pdflatex"
-  "build/main.bbl" 1779592886 279 320a7ffd02207c31f1581dc4b064fc1d "bibtex build/main"
-  "build/main.out" 1779594447 1440 4bf3c1c94c69380b73343c738b899831 "pdflatex"
-  "main.tex" 1779594445 6662 01baedaca2b518b7da43fb95ff45e0fc ""
+  "build/main.aux" 1779665154 1898 7aede2a7e6f89c760c2dd295a2940457 "pdflatex"
+  "build/main.bbl" 1779665153 279 320a7ffd02207c31f1581dc4b064fc1d "bibtex build/main"
+  "build/main.out" 1779665154 1440 4bf3c1c94c69380b73343c738b899831 "pdflatex"
+  "main.tex" 1779665151 6704 26fc121fe3bc5526b20c1625de26bb8d ""
   (generated)
   "build/main.aux"
   "build/main.log"
