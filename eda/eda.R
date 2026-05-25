@@ -12,3 +12,4 @@ datos_finales <- merge(paso2, presion, by = "SEQN")
 
 # 3. Revisar las dimensiones (cuántos pacientes y cuántas variables quedaron)
 dim(datos_finales)
+

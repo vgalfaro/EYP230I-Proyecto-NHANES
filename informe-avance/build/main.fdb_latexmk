@@ -1,13 +1,13 @@
 # Fdb version 3
-["bibtex build/main"] 1779665153 "build/main.aux" "build/main.bbl" "build/main" 1779665154
+["bibtex build/main"] 1779723445 "build/main.aux" "build/main.bbl" "build/main" 1779723465
   "/usr/local/texlive/2022/texmf-dist/bibtex/bst/base/plain.bst" 1292289607 20613 bd3fbfa9f64872b81ac57a0dd2ed855f ""
-  "build/main.aux" 1779665154 1898 7aede2a7e6f89c760c2dd295a2940457 "pdflatex"
+  "build/main.aux" 1779723465 2031 508722fa9ef02ce23e34b1eabcd0238b "pdflatex"
   "referencias.bib" 1779591527 373 299f82ee48af96816d11c16272ed0e29 ""
   (generated)
   "build/main.bbl"
   "build/main.blg"
-["pdflatex"] 1779665153 "/Users/vicentealfaro/Documents/Ingenieria/9_semestre/eyp230i/EYP230I-Proyecto-NHANES/informe-avance/main.tex" "build/main.pdf" "main" 1779665154
-  "/Users/vicentealfaro/Documents/Ingenieria/9_semestre/eyp230i/EYP230I-Proyecto-NHANES/informe-avance/main.tex" 1779665151 6704 26fc121fe3bc5526b20c1625de26bb8d ""
+["pdflatex"] 1779723464 "/Users/vicentealfaro/Documents/Ingenieria/9_semestre/eyp230i/EYP230I-Proyecto-NHANES/informe-avance/main.tex" "build/main.pdf" "main" 1779723465
+  "/Users/vicentealfaro/Documents/Ingenieria/9_semestre/eyp230i/EYP230I-Proyecto-NHANES/informe-avance/main.tex" 1779723464 7516 22c6958b587efa0b16c15458cd3b3593 ""
   "/usr/local/texlive/2022/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2022/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmbsy5.tfm" 1246382020 1120 1e8878807317373affa7f7bba4cf2f6a ""
   "/usr/local/texlive/2022/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmbsy6.tfm" 1246382020 1124 14ccf5552bc7f77ca02a8a402bea8bfb ""
@@ -241,10 +241,10 @@
   "/usr/local/texlive/2022/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1647878959 4410336 7d30a02e9fa9a16d7d1f8d037ba69641 ""
   "/usr/local/texlive/2022/texmf-var/web2c/pdftex/pdflatex.fmt" 1679090322 2826434 b5e9d105a97cff0d0b9e1a1e04ed309f ""
   "/usr/local/texlive/2022/texmf.cnf" 1647878952 577 209b46be99c9075fd74d4c0369380e8c ""
-  "build/main.aux" 1779665154 1898 7aede2a7e6f89c760c2dd295a2940457 "pdflatex"
-  "build/main.bbl" 1779665153 279 320a7ffd02207c31f1581dc4b064fc1d "bibtex build/main"
-  "build/main.out" 1779665154 1440 4bf3c1c94c69380b73343c738b899831 "pdflatex"
-  "main.tex" 1779665151 6704 26fc121fe3bc5526b20c1625de26bb8d ""
+  "build/main.aux" 1779723465 2031 508722fa9ef02ce23e34b1eabcd0238b "pdflatex"
+  "build/main.bbl" 1779723445 279 320a7ffd02207c31f1581dc4b064fc1d "bibtex build/main"
+  "build/main.out" 1779723465 1631 e0452407b9baf9881c9daaedccabd15f "pdflatex"
+  "main.tex" 1779723464 7516 22c6958b587efa0b16c15458cd3b3593 ""
   (generated)
   "build/main.aux"
   "build/main.log"
