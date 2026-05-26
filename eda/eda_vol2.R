@@ -8,11 +8,12 @@ library(ggplot2)
 demo    <- read.xport("DEMO_L.xpt")
 body    <- read.xport("BMX_L.xpt")
 chol    <- read.xport("TCHOL_L.xpt")
-
+pres    <- read.xport("BPXO_L.xpt")
 # Unión secuencial indexada por "SEQN"
 datos_crudos <- demo %>%
   inner_join(chol, by = "SEQN") %>%
-  inner_join(body, by = "SEQN")
+  inner_join(body, by = "SEQN") %>%
+  inner_join(pres, by = "SEQN")
 
 
 # 2. LIMPIEZA INICIAL 
@@ -28,7 +29,15 @@ datos_adultos <- datos_crudos %>%
          Cintura = BMXWAIST, 
          Edad = RIDAGEYR, 
          Sexo = RIAGENDR, 
-         NSE_PIR = INDFMPIR)
+         NSE_PIR = INDFMPIR,
+         Altura = BMXHT, 
+         Cadera = BMXHIP, 
+         IMC = BMXBMI, 
+         Circ_Brazo = BMXARMC, 
+         Peso = BMXWT,
+         Presion_sis = BPXOSY1,
+         Presion_dia = BPXODI1,
+         Ritmo = BPXOPLS1)
 
 print("Dimensiones tras filtro de adultos:")
 dim(datos_adultos)
@@ -66,17 +75,16 @@ summary(datos_limpios)
 # 4. EDA
 
 #  Distribución Univariada de colesterol y circunferencia de cintura
+
 p1 <- ggplot(datos_limpios, aes(x = Colesterol)) + 
   geom_histogram(bins = 30, fill = "steelblue", color = "white") +
   theme_minimal() + labs(title = "Distribución del Colesterol Total ($mg/dL$)")
-ggsave("eda_dist_colesterol.png", plot = p1)
+p1
 
 p2 <- ggplot(datos_limpios, aes(x = Cintura)) + 
   geom_histogram(bins = 30, fill = "darkorange", color = "white") +
   theme_minimal() + labs(title = "Distribución de la Circunferencia de Cintura ($cm$)")
-ggsave("eda_dist_cintura.png", plot = p2)
-
-
+p2
 
 #
 p3 <- ggplot(datos_limpios, aes(x = Cintura, y = Colesterol)) +
@@ -85,7 +93,7 @@ p3 <- ggplot(datos_limpios, aes(x = Cintura, y = Colesterol)) +
   theme_minimal() +
   labs(title = "Relación Cruda: Cintura vs Colesterol Total",
        x = "Circunferencia de Cintura ($cm$)", y = "Colesterol Total ($mg/dL$)")
-ggsave("eda_bivariado_crudo.png", plot = p3)
+p3
 
 #Relación Cintura-Colesterol separada por Sexo
 p4 <- ggplot(datos_limpios, aes(x = Cintura, y = Colesterol, color = Sexo)) +
@@ -94,8 +102,7 @@ p4 <- ggplot(datos_limpios, aes(x = Cintura, y = Colesterol, color = Sexo)) +
   theme_minimal() +
   labs(title = "Relación Cintura vs Colesterol Estratificada por Sexo",
        x = "Circunferencia de Cintura ($cm$)", y = "Colesterol Total ($mg/dL$)")
-ggsave("eda_estratificado_sexo.png", plot = p4)
-
+p4
 
 # Relación Cintura-Colesterol separada por Nivel Socioeconómico (NSE)
 p5 <- ggplot(datos_limpios, aes(x = Cintura, y = Colesterol)) +
@@ -105,22 +112,80 @@ p5 <- ggplot(datos_limpios, aes(x = Cintura, y = Colesterol)) +
   theme_bw() +
   labs(title = "Relación Cintura vs Colesterol por Nivel Socioeconómico",
        x = "Circunferencia de Cintura ($cm$)", y = "Colesterol Total ($mg/dL$)")
-ggsave("eda_estratificado_nse.png", plot = p5)
+p5
+
+
+
+
+ggplot(datos_limpios, aes(x = Cintura, y = Colesterol)) +
+  geom_point(alpha = 0.3, color = "gray30") +
+  geom_smooth(method = "loess", color = "red", se = TRUE) +
+  theme_minimal() +
+  labs(title = "Relación Cruda: IMC vs Colesterol Total",
+       x = "IMC ($cm$)", y = "Colesterol Total ($mg/dL$)")
+
+
+
+
+ggplot(datos_limpios, aes(x = Circ_Brazo, y = Colesterol)) +
+  geom_point(alpha = 0.3, color = "gray30") +
+  geom_smooth(method = "loess", color = "red", se = TRUE) +
+  theme_minimal() +
+  labs(title = "Relación Cruda: IMC vs Colesterol Total",
+       x = "IMC ($cm$)", y = "Colesterol Total ($mg/dL$)")
+
+
+ggplot(datos_limpios, aes(x = Peso, y = Colesterol)) +
+  geom_point(alpha = 0.3, color = "gray30") +
+  geom_smooth(method = "loess", color = "red", se = TRUE) +
+  theme_minimal() +
+  labs(title = "Relación Cruda: peso vs Colesterol Total",
+       x = "peso", y = "Colesterol Total ($mg/dL$)")
+
+ggplot(datos_limpios, aes(x = Edad, y = Colesterol)) +
+  geom_point(alpha = 0.3, color = "gray30") +
+  geom_smooth(method = "loess", color = "red", se = TRUE) +
+  theme_minimal() +
+  labs(title = "Relación Cruda: peso vs Colesterol Total",
+       x = "peso", y = "Colesterol Total ($mg/dL$)")
 
 
 
 
 
+ggplot(datos_limpios, aes(x = Cintura, y = IMC)) +
+  geom_point(alpha = 0.3, color = "gray30") +
+  geom_smooth(method = "loess", color = "red", se = TRUE) +
+  theme_minimal() +
+  labs(title = "Relación Cruda: Cintura vs IMC",
+       x = "Cintura", y = "IMC")
 
 
 
 
+ggplot(datos_limpios, aes(x = Peso, y = IMC)) +
+  geom_point(alpha = 0.3, color = "gray30") +
+  geom_smooth(method = "loess", color = "red", se = TRUE) +
+  theme_minimal() +
+  labs(title = "Relación Cruda: Cintura vs IMC",
+       x = "Cintura", y = "IMC")
+
+
+ggplot(datos_limpios, aes(x = Presion_sis, y = Presion_dia)) +
+  geom_point(alpha = 0.3, color = "gray30") +
+  geom_smooth(method = "loess", color = "red", se = TRUE) +
+  theme_minimal() +
+  labs(title = "Relación Cruda: Cintura vs IMC",
+       x = "sis", y = "dia")
 
 
 
-
-
-
+ggplot(datos_limpios, aes(x = Ritmo, y = Presion_sis)) +
+  geom_point(alpha = 0.3, color = "gray30") +
+  geom_smooth(method = "loess", color = "red", se = TRUE) +
+  theme_minimal() +
+  labs(title = "Relación Cruda: Cintura vs IMC",
+       x = "sis", y = "dia")
 
 
 

@@ -1,125 +1,63 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Define Article %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\documentclass{article}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Using Packages %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\usepackage{geometry}
-\usepackage{url}
-\usepackage{graphicx}
-\usepackage{amssymb}
-\usepackage{amsmath}
-\usepackage{amsthm}
-\usepackage{empheq}
-\usepackage{mdframed}
-\usepackage{booktabs}
-\usepackage{lipsum}
-\usepackage{graphicx}
-\usepackage{color}
-\usepackage{psfrag}
-\usepackage{pgfplots}
-\usepackage{bm}
-\usepackage{hyperref} 
-\usepackage[spanish]{babel}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% Other Settings
-
-%%%%%%%%%%%%%%%%%%%%%%%%%% Page Setting %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\geometry{a4paper}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%% Define some useful colors %%%%%%%%%%%%%%%%%%%%%%%%%%
-\definecolor{ocre}{RGB}{243,102,25}
-\definecolor{mygray}{RGB}{243,243,244}
-\definecolor{deepGreen}{RGB}{26,111,0}
-\definecolor{shallowGreen}{RGB}{235,255,255}
-\definecolor{deepBlue}{RGB}{61,124,222}
-\definecolor{shallowBlue}{RGB}{235,249,255}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%%%%% Define an orangebox command %%%%%%%%%%%%%%%%%%%%%%%%
-\newcommand\orangebox[1]{\fcolorbox{ocre}{mygray}{\hspace{1em}#1\hspace{1em}}}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%% English Environments %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newtheoremstyle{mytheoremstyle}{3pt}{3pt}{\normalfont}{0cm}{\rmfamily\bfseries}{}{1em}{{\color{black}\thmname{#1}~\thmnumber{#2}}\thmnote{\,--\,#3}}
-\newtheoremstyle{myproblemstyle}{3pt}{3pt}{\normalfont}{0cm}{\rmfamily\bfseries}{}{1em}{{\color{black}\thmname{#1}~\thmnumber{#2}}\thmnote{\,--\,#3}}
-\theoremstyle{mytheoremstyle}
-\newmdtheoremenv[linewidth=1pt,backgroundcolor=shallowGreen,linecolor=deepGreen,leftmargin=0pt,innerleftmargin=20pt,innerrightmargin=20pt,]{theorem}{Theorem}[section]
-\theoremstyle{mytheoremstyle}
-\newmdtheoremenv[linewidth=1pt,backgroundcolor=shallowBlue,linecolor=deepBlue,leftmargin=0pt,innerleftmargin=20pt,innerrightmargin=20pt,]{definition}{Definition}[section]
-\theoremstyle{myproblemstyle}
-\newmdtheoremenv[linecolor=black,leftmargin=0pt,innerleftmargin=10pt,innerrightmargin=10pt,]{problem}{Problem}[section]
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Plotting Settings %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\usepgfplotslibrary{colorbrewer}
-\pgfplotsset{width=8cm,compat=1.9}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Title & Author %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\title{Proyecto NHANES}
-\author{Vicente Alfaro - Cristian Chávez - Isidora Guíñez - Bruno Parra}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% IMPORTANTE: Cambiar el compilador a XeLaTeX en las opciones %
+%               Creditos Github: @diegocostares               %
+%                Disponible en: @open-source-uc               %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass{style}
 
 \begin{document}
-    \maketitle
-    \section*{Introducción}
-    \section{Pregunta de Investigación y Motivación}
-
-Enfoque Descriptivo (Énfasis en la interpretación causal y biológica)
-Este enfoque es ideal para aislar el efecto de una variable en particular, "congelando" matemáticamente el resto.
-\subsection{Pregunta de Investigación}
-(El impacto de la grasa abdominal): ¿En qué medida la circunferencia de la cintura explica los niveles de colesterol total en adultos estadounidenses, una vez que se controla el efecto de la edad, el sexo y el nivel socioeconómico (ratio de pobreza)?
-
-Por qué es buena: Te permite discutir el concepto estadístico de "controlar por variables". Puedes contrastar un modelo simple (solo cintura) versus el modelo múltiple completo, y usar el Test F Parcial para demostrar si las variables de control realmente eran necesarias.
-
-""BORRADOR
-\section{Fuente de Datos y Consideraciones Éticas}
-
-\subsection{Origen de los Datos y Unidad de Observación}
-Los datos utilizados en este estudio provienen de la \textit{National Health and Nutrition Examination Survey} (NHANES), un programa de estudios diseñado para evaluar el estado de salud y nutrición de adultos y niños en los Estados Unidos. Específicamente, se utiliza el ciclo de datos continuos correspondiente al período 2021-2023. La unidad de observación es una persona individual examinada \cite{cdc_nhanes_about}. 
-
-La base de datos original se distribuye en múltiples módulos independientes en formato SAS Transport (\texttt{.xpt}). Para la consolidación de la muestra analítica, se cruzaron los registros de cuatro módulos clave utilizando el identificador único de cada paciente (\texttt{SEQN}): Demografía (\texttt{DEMO\_L}), Medidas Corporales (\texttt{BMX\_L}), Presión Arterial (\texttt{BPXO\_L}) y Colesterol Total (\texttt{TCHOL\_L}).
-
-\subsection{Consideraciones Éticas}
-El uso de esta base de datos se enmarca en un contexto estrictamente académico y estadístico. Los datos de NHANES son de dominio público y han sido previamente anonimizados por el \textit{National Center for Health Statistics} (NCHS) del CDC, garantizando que no sea posible identificar a los individuos encuestados. El análisis propuesto no busca la estigmatización de ningún subgrupo demográfico, sino comprender las relaciones entre indicadores antropométricos y cardiovasculares.
-
-\section{EDA}
-
-\subsection{Descripción de Variables}
-
-VARIABLE DEPENDIENTE: COLESTEROL TOTAL
-
-% A partir de la consolidación de los módulos mencionados, a continuación se describen las variables selccionadas para el análisis:
-
-% \begin{itemize}
-%     \item \textbf{Colesterol Total (\texttt{LBXTC}):} Variable numérica continua que mide el nivel de colesterol total en la sangre, expresado en miligramos por decilitro (mg/dL). Esta medición se obtiene a partir de exámenes de laboratorio de los participantes y constituye la variable respuesta central de nuestro modelo.
-% \end{itemize}
+%%%%%%%%%%%%%%%%% RENOMBRE %%%%%%%%%%%%%%%%%
+\graphicspath{ {./img/} }
+\renewcommand{\contentsname}{Índice de contenido}
+\renewcommand{\listfigurename}{Índice de figuras}
+\renewcommand{\listtablename}{Índice de Tablas}
+\renewcommand{\tablename}{Tabla}
+\renewcommand{\figurename}{Imagen}
+\renewcommand*{\lstlistingname}{Código}
 
 
-% Los predictores se dividen en tres grandes grupos fisiológicos y demográficos:
+%%%%%%%%%%%%%%%%% ENCABEZADO %%%%%%%%%%%%%%%%%
+% Si se quiere eliminar, se tiene que quitar tambien las configuraciones del style.cls
+\fancyhead[L]{ % Encabezado a la izquierda
+  \begin{picture}(0,0) \put(-40,16){\includegraphics[width=15mm]{img/logo-uc-3.pdf}} \end{picture}
+  \put(8,40){\textcolor{gray}{\scriptsize{\begin{tabular}{l}
+    PONTIFICIA UNIVERSIDAD CATÓLICA DE CHILE\\
+    FACULTAD DE MATEMÁTICAS\\
+    DEPARTAMENTO DE ESTADÍSTICA
+  \end{tabular}}}}
+}
+% Si se quiere agregar a la derecha remplazar:
+\rhead{} % Opcion 1
+%\rhead{\begin{picture}(0,0) \put(-85,12){\includegraphics[width=30mm]{img/IMAGEN.png}} \end{picture}} % Opcion 2
 
-% \textbf{Predictores Demográficos:}
-% \begin{itemize}
-%     \item \textbf{Edad (\texttt{RIDAGEYR}):} Variable numérica que indica la edad del participante en años en el momento del examen.
-%     \item \textbf{Sexo (\texttt{RIAGENDR}):} Variable categórica codificada (1 = Masculino, 2 = Femenino).
-% \end{itemize}
 
-% \textbf{Predictores Antropométricos:}
-% \begin{itemize}
-%     \item \textbf{Índice de Masa Corporal (\texttt{BMXBMI}):} Variable numérica continua (kg/m$^2$) calculada a partir del peso y la altura al momento de la medición.
-%     \item \textbf{Circunferencia de Cintura (\texttt{BMXWAIST}):} Variable numérica continua medida en centímetros (cm), indicadora de la acumulación de grasa abdominal.
-%     \item \textbf{Peso (\texttt{BMXWT}):} Variable numérica continua medida en kilogramos (kg).
-% \end{itemize}
+%%%%%%%%%%%%%%%%% PORTADA %%%%%%%%%%%%%%%%%
+% Opcion 1: Importar un pdf tamaño carta de EEUU
+%\includepdf[pages=-]{img/Portada.pdf} % cambiar portada por pdf
+% Opcion 2: Escribir una portada completa
+\input{content/portada}
+% Opcion 3: Sin portada - Se recomienda quitar indices
 
-% \textbf{Predictores Clínicos:}
-% \begin{itemize}
-%     \item \textbf{Presión Arterial Sistólica (\texttt{BPXOSY1}):} Variable numérica continua (mm Hg) correspondiente a la primera medición de la presión sistólica (fase de contracción del corazón).
-%     \item \textbf{Presión Arterial Diastólica (\texttt{BPXODI1}):} Variable numérica continua (mm Hg) correspondiente a la primera medición de la presión diastólica (fase de relajación del corazón).
-% \end{itemize}
-    
-    \section{Plan de Modelamiento Estadístico}
-    \section*{Cierre}
-    \bibliographystyle{plain}
-    \bibliography{referencias}
+
+%%%%%%%%%%%%%%%%% INDICES %%%%%%%%%%%%%%%%%
+\setstretch{1}
+\vspace*{\fill} %%%%%% PARA ELIMINAR EL ESPACIO SUPERIOR COMENTAR ESTA LINEA
+    \tableofcontents % No pude quitarle la negrita :c
+    \listoftables
+    \listoffigures
+    %\lstlistoflistings % Para hacer indice de codigo
+\vspace*{\fill}
+
+%%%%%%%%%%%%%%%%% ESPACIADO %%%%%%%%%%%%%%%%%
+\setstretch{1.15} 
+
+%%%%%%%%%%%%%%%%% CONTENIDO %%%%%%%%%%%%%%%%%
+\newpage
+\input{content/pregunta_investigacion}
+\input{content/fuente_y_consideraciones_eticas}
+\input{content/eda}
+\input{content/plan_modelamiento}
+
+\newpage
+\input{content/bibliografia}
 \end{document}
