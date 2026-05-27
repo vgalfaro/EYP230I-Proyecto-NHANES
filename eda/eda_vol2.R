@@ -10,34 +10,37 @@ body    <- read.xport("BMX_L.xpt")
 chol    <- read.xport("TCHOL_L.xpt")
 pres    <- read.xport("BPXO_L.xpt")
 # Unión secuencial indexada por "SEQN"
+
+
+
+# 2. LIMPIEZA INICIAL 
+
+# calcular promedio de mediciones de presiones diarias.
+
+pres$promedio_sistolica <- rowMeans(pres[, c("BPXOSY1", "BPXOSY2", "BPXOSY3")])
+
+pres$promedio_diastolica<- rowMeans(pres[,c("BPXODI1","BPXODI2","BPXODI3")])
+
+# Unión secuencial indexada por "SEQN"
 datos_crudos <- demo %>%
   inner_join(chol, by = "SEQN") %>%
   inner_join(body, by = "SEQN") %>%
   inner_join(pres, by = "SEQN")
 
+# restringimos  edad a RIDAGEYR >= 18 años 
 
-# 2. LIMPIEZA INICIAL 
-
-
-# restringimos  edad a RIDAGEYR >= 20 años 
 # - Seleccionamos únicamente las variables del modelo conceptual.
 
 datos_adultos <- datos_crudos %>%
-  filter(RIDAGEYR >= 20) %>%
+  filter(RIDAGEYR >= 18) %>%
   select(SEQN, 
          Colesterol = LBXTC, 
-         Cintura = BMXWAIST, 
          Edad = RIDAGEYR, 
          Sexo = RIAGENDR, 
          NSE_PIR = INDFMPIR,
-         Altura = BMXHT, 
-         Cadera = BMXHIP, 
-         IMC = BMXBMI, 
-         Circ_Brazo = BMXARMC, 
-         Peso = BMXWT,
-         Presion_sis = BPXOSY1,
-         Presion_dia = BPXODI1,
-         Ritmo = BPXOPLS1)
+         IMC = BMXBMI,
+         Presion_sis = promedio_sistolica,
+         Presion_dia = promedio_diastolica)
 
 print("Dimensiones tras filtro de adultos:")
 dim(datos_adultos)
@@ -55,18 +58,14 @@ print(nas_resumen)
 
 datos_limpios <- datos_adultos %>% na.omit()
 
+
 # B. Codificación de Variables
 # - El Sexo viene codificado como 1 y 2. Debemos transformarlo a Factor para que R no lo lea como continuo.
 # - Para el Nivel Socioeconómico (NSE_PIR), creamos una variable categórica.
 datos_limpios <- datos_limpios %>%
   mutate(
     Sexo = factor(Sexo, levels = c(1, 2), labels = c("Hombre", "Mujer")),
-    NSE_Grupo = case_when(
-      NSE_PIR < 1.3  ~ "Bajo",
-      NSE_PIR <= 3.5 ~ "Medio",
-      NSE_PIR > 3.5  ~ "Alto"
-    ),
-    NSE_Grupo = factor(NSE_Grupo, levels = c("Bajo", "Medio", "Alto"))
+    
   )
 
 print("Datos finales listos para el EDA:")

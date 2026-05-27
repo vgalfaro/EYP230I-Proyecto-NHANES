@@ -7,7 +7,7 @@
 \contentsline {subsection}{\numberline {2.2}Consideraciones Éticas}{2}{subsection.2.2}%
 \contentsline {section}{\numberline {3}EDA}{2}{section.3}%
 \contentsline {subsection}{\numberline {3.1}Tratamiento de los NaN}{2}{subsection.3.1}%
-\contentsline {subsection}{\numberline {3.2}Codificación}{2}{subsection.3.2}%
-\contentsline {subsection}{\numberline {3.3}Descripción de Variables}{2}{subsection.3.3}%
-\contentsline {section}{\numberline {4}Plan de Modelamiento Estadístico}{3}{section.4}%
-\contentsline {section}{\numberline {5}Referencias bibliográficas}{4}{section.5}%
+\contentsline {subsection}{\numberline {3.2}Descripción de Variables}{3}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Codificación}{4}{subsection.3.3}%
+\contentsline {section}{\numberline {4}Plan de Modelamiento Estadístico}{4}{section.4}%
+\contentsline {section}{\numberline {5}Referencias bibliográficas}{5}{section.5}%

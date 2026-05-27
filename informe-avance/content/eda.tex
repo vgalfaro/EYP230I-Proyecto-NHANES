@@ -1,24 +1,57 @@
 \section{EDA}
 
 \subsection{Tratamiento de los NaN}
+Para el tratamiento de los valores faltantes, en primer lugar se analizo la proporción de datos faltantes por variable. Se identificó que las variables con mayor proporción de valores faltantes son \texttt{Colesterol} y \texttt{NSE\_PIR}, con un 9.78\% y 13.11\% de datos faltantes respectivamente. Otras variables como \texttt{IMC},
+\texttt{Presion\_sis} y \texttt{Presion\_dia} presentan un porcentaje de valores faltantes menor, alrededor del 1.61\% y 3.74\%
+
+\begin{table}[h]
+\centering
+\caption{Valores Faltantes por Variable}
+\begin{tabular}{lrr}
+\hline
+\textbf{Variable} & \textbf{Total\_NA} & \textbf{Porcentaje\_NA (\%)} \\
+\hline
+SEQN          &   0 &  0.00 \\
+Colesterol    & 620 &  9.78 \\
+Edad          &   0 &  0.00 \\
+Sexo          &   0 &  0.00 \\
+NSE\_PIR      & 831 & 13.11 \\
+IMC           & 102 &  1.61 \\
+Presion\_sis  & 214 &  3.74 \\
+Presion\_dia  & 214 &  3.74 \\
+\hline
+\end{tabular}
+\label{tab:missing_values}
+\end{table}
+%REDACTAR MEJOR , INCLUIR REFERENCIA A LA TABLA 
 % TODO: Completar análisis del tratamiento de valores faltantes
 % - Describir la proporción de datos faltantes por variable
 % - Explicar estrategia de imputación o exclusión
 
+\subsection{Descripción de Variables}
+\begin{itemize}
+    \item \textbf{Variable dependiente} 
+    \begin{itemize}
+        \item Colesterol Total (\texttt{LBXTC}): Variable númerica continual (mg/dL) que representa la concentración de colesterol total en sangre. El colesterol es un indicador clave de la salud cardiovascular, 
+    \end{itemize}
+
+    \item \textbf{Variable de interés} 
+    \begin{itemize}
+        \item \textbf{Edad} (\texttt{RIDAGEYR}): Variable numérica que indica la edad del participante en años en el momento del examen. Estudios muestran que existe una relación no lineal entre edad y colesterol total, con un aumento progresivo que se estabiliza e inclusive disminuye en edades avanzadas (Ferrara, et al. 1997)
+    \end{itemize}
+    \item \textbf{Variables de control}
+    \begin{itemize}
+        \item \textbf{Sexo} (\texttt{RIAGENDR}): Variable categórica codificada (0 = Masculino, 1 = Femenino). Es importante controlar por sexo debido a diferencias biológicas en el metabolismo de grasas (Blaak E. 2001).
+        \item \textbf{Índice de Masa Corporal} (\texttt{BMXBMI}): Variable numérica continua (kg/m$^2$) calculada a partir del peso y la altura al momento de la medición. Es una métrica que mide el estado metabólico general, una persona mayor y muy delgada no tendrá el mismo colesterol que una persona mayor con obesidad. 
+        \item \textbf{Presión Arterial Sistólica} (\texttt{BPXOSY1}): Variable numérica continua (mm Hg) correspondiente a la primera medición de la presión sistólica (fase de contracción del corazón). La literatura sugiere que la presión sistólica y el colesterol están positivamente relacionados (Chen, et al. 2021).
+        \item \textbf{Presión Arterial Diastólica} (\texttt{BPXODI1}): Variable numérica continua (mm Hg) correspondiente a la primera medición de la presión diastólica (fase de relajación del corazón). Se agrega la presión diastólica para controlar la salud cardiovascular general. 
+    \end{itemize}
+    
+\end{itemize}
+
 \subsection{Codificación}
+
 % TODO: Completar descripción de codificación de variables
 % - Detallar transformaciones aplicadas
 % - Explicar variables dummy o recodificación
 
-\subsection{Descripción de Variables}
-
-\textbf{Variable dependiente:} Colesterol Total (\texttt{LBXTC})
-
-\textbf{Variables independientes:}
-\begin{itemize}
-    \item \textbf{Edad} (\texttt{RIDAGEYR}): Variable numérica que indica la edad del participante en años en el momento del examen.
-    \item \textbf{Sexo} (\texttt{RIAGENDR}): Variable categórica codificada (1 = Masculino, 2 = Femenino).
-    \item \textbf{Índice de Masa Corporal} (\texttt{BMXBMI}): Variable numérica continua (kg/m$^2$) calculada a partir del peso y la altura al momento de la medición.
-    \item \textbf{Presión Arterial Sistólica} (\texttt{BPXOSY1}): Variable numérica continua (mm Hg) correspondiente a la primera medición de la presión sistólica (fase de contracción del corazón).
-    \item \textbf{Presión Arterial Diastólica} (\texttt{BPXODI1}): Variable numérica continua (mm Hg) correspondiente a la primera medición de la presión diastólica (fase de relajación del corazón).
-\end{itemize}
