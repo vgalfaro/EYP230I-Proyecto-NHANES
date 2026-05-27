@@ -63,8 +63,11 @@ datos_limpios <- datos_adultos %>% na.omit()
 # - El Sexo viene codificado como 1 y 2. Debemos transformarlo a Factor para que R no lo lea como continuo.
 # - Para el Nivel Socioeconómico (NSE_PIR), creamos una variable categórica.
 datos_limpios <- datos_limpios %>%
+  mutate(Sexo = Sexo - 1)
+
+datos_limpios <- datos_limpios %>%
   mutate(
-    Sexo = factor(Sexo, levels = c(1, 2), labels = c("Hombre", "Mujer")),
+    Sexo = factor(Sexo, levels = c(0, 1), labels = c("Hombre", "Mujer")),
     
   )
 
@@ -77,118 +80,81 @@ summary(datos_limpios)
 
 p1 <- ggplot(datos_limpios, aes(x = Colesterol)) + 
   geom_histogram(bins = 30, fill = "steelblue", color = "white") +
-  theme_minimal() + labs(title = "Distribución del Colesterol Total ($mg/dL$)")
-p1
-
-p2 <- ggplot(datos_limpios, aes(x = Cintura)) + 
-  geom_histogram(bins = 30, fill = "darkorange", color = "white") +
-  theme_minimal() + labs(title = "Distribución de la Circunferencia de Cintura ($cm$)")
-p2
-
-#
-p3 <- ggplot(datos_limpios, aes(x = Cintura, y = Colesterol)) +
-  geom_point(alpha = 0.3, color = "gray30") +
-  geom_smooth(method = "loess", color = "red", se = TRUE) +
   theme_minimal() +
-  labs(title = "Relación Cruda: Cintura vs Colesterol Total",
-       x = "Circunferencia de Cintura ($cm$)", y = "Colesterol Total ($mg/dL$)")
-p3
-
-#Relación Cintura-Colesterol separada por Sexo
-p4 <- ggplot(datos_limpios, aes(x = Cintura, y = Colesterol, color = Sexo)) +
-  geom_point(alpha = 0.2) +
-  geom_smooth(method = "lm", se = FALSE) +
-  theme_minimal() +
-  labs(title = "Relación Cintura vs Colesterol Estratificada por Sexo",
-       x = "Circunferencia de Cintura ($cm$)", y = "Colesterol Total ($mg/dL$)")
-p4
-
-# Relación Cintura-Colesterol separada por Nivel Socioeconómico (NSE)
-p5 <- ggplot(datos_limpios, aes(x = Cintura, y = Colesterol)) +
-  geom_point(alpha = 0.2, aes(color = NSE_Grupo)) +
-  geom_smooth(method = "lm", color = "black") +
-  facet_wrap(~NSE_Grupo) +
-  theme_bw() +
-  labs(title = "Relación Cintura vs Colesterol por Nivel Socioeconómico",
-       x = "Circunferencia de Cintura ($cm$)", y = "Colesterol Total ($mg/dL$)")
-p5
-
-
-
-
-ggplot(datos_limpios, aes(x = Cintura, y = Colesterol)) +
-  geom_point(alpha = 0.3, color = "gray30") +
-  geom_smooth(method = "loess", color = "red", se = TRUE) +
-  theme_minimal() +
-  labs(title = "Relación Cruda: IMC vs Colesterol Total",
-       x = "IMC ($cm$)", y = "Colesterol Total ($mg/dL$)")
-
-
-
-
-ggplot(datos_limpios, aes(x = Circ_Brazo, y = Colesterol)) +
-  geom_point(alpha = 0.3, color = "gray30") +
-  geom_smooth(method = "loess", color = "red", se = TRUE) +
-  theme_minimal() +
-  labs(title = "Relación Cruda: IMC vs Colesterol Total",
-       x = "IMC ($cm$)", y = "Colesterol Total ($mg/dL$)")
-
-
-ggplot(datos_limpios, aes(x = Peso, y = Colesterol)) +
-  geom_point(alpha = 0.3, color = "gray30") +
-  geom_smooth(method = "loess", color = "red", se = TRUE) +
-  theme_minimal() +
-  labs(title = "Relación Cruda: peso vs Colesterol Total",
-       x = "peso", y = "Colesterol Total ($mg/dL$)")
+  labs(x = "Colesterol (mg/dL)",
+       y = "Frecuencia")
+  )
 
 ggplot(datos_limpios, aes(x = Edad, y = Colesterol)) +
   geom_point(alpha = 0.3, color = "gray30") +
-  geom_smooth(method = "loess", color = "red", se = TRUE) +
+  geom_smooth(method = "loess", aes(color = "Promedio"), se = TRUE) +
+  scale_color_manual(values = c("Promedio" = "red")) +
   theme_minimal() +
-  labs(title = "Relación Cruda: peso vs Colesterol Total",
-       x = "peso", y = "Colesterol Total ($mg/dL$)")
+  labs(x = "Edad", y = "Colesterol (mg/dL)",
+       color = "Leyenda") +
+  theme(
+    legend.position = c(0.80, 0.95),
+    legend.justification = c("left", "top"),
+    legend.background = element_blank(),
+    legend.box.background = element_blank(),
+    plot.title = element_text(hjust = 0.5)
+  )
 
+# Calculamos la matriz de covarianza
 
+matriz_covariables <- data.frame(
+  datos_limpios$Sexo,
+  datos_limpios$IMC,
+  datos_limpios$NSE_PIR,
+  datos_limpios$Presion_sis,
+  datos_limpios$Presion_dia,
+  datos_limpios$Edad,
+  (datos_limpios$Edad)^2
+)
 
+cor(matriz_covariables)
 
-
-ggplot(datos_limpios, aes(x = Cintura, y = IMC)) +
-  geom_point(alpha = 0.3, color = "gray30") +
-  geom_smooth(method = "loess", color = "red", se = TRUE) +
+ggplot(datos_limpios, aes(x = Edad, y = Colesterol)) +
+  geom_point(
+    aes(color = factor(Sexo)),
+    alpha = 0.12,
+    size = 1.6,
+    show.legend = FALSE
+  ) +
+  geom_smooth(
+    aes(color = factor(Sexo), fill = factor(Sexo)),
+    method = "loess",
+    se = TRUE,
+    linewidth = 1.4,
+    alpha = 0.12,
+    key_glyph = "path"
+  ) +
+  scale_color_manual(
+    name = "Sexo",
+    values = c("0" = "orange", "1" = "blue"),
+    labels = c("0" = "Hombre", "1" = "Mujer")
+  ) +
+  scale_fill_manual(
+    values = c("0" = "orange", "1" = "blue"),
+    guide = "none"
+  ) +
+  guides(
+    color = guide_legend(
+      override.aes = list(
+        alpha = 1,
+        linewidth = 1.6
+      )
+    )
+  ) +
   theme_minimal() +
-  labs(title = "Relación Cruda: Cintura vs IMC",
-       x = "Cintura", y = "IMC")
-
-
-
-
-ggplot(datos_limpios, aes(x = Peso, y = IMC)) +
-  geom_point(alpha = 0.3, color = "gray30") +
-  geom_smooth(method = "loess", color = "red", se = TRUE) +
-  theme_minimal() +
-  labs(title = "Relación Cruda: Cintura vs IMC",
-       x = "Cintura", y = "IMC")
-
-
-ggplot(datos_limpios, aes(x = Presion_sis, y = Presion_dia)) +
-  geom_point(alpha = 0.3, color = "gray30") +
-  geom_smooth(method = "loess", color = "red", se = TRUE) +
-  theme_minimal() +
-  labs(title = "Relación Cruda: Cintura vs IMC",
-       x = "sis", y = "dia")
-
-
-
-ggplot(datos_limpios, aes(x = Ritmo, y = Presion_sis)) +
-  geom_point(alpha = 0.3, color = "gray30") +
-  geom_smooth(method = "loess", color = "red", se = TRUE) +
-  theme_minimal() +
-  labs(title = "Relación Cruda: Cintura vs IMC",
-       x = "sis", y = "dia")
-
-
-
-
-
-
+  labs(x = "Edad",
+    y = "Colesterol (mg/dL)"
+  ) +
+  theme(
+    legend.position = c(0.80, 0.95),
+    legend.justification = c("left", "top"),
+    legend.background = element_blank(),
+    legend.box.background = element_blank(),
+    plot.title = element_text(hjust = 0.5)
+  )
 
