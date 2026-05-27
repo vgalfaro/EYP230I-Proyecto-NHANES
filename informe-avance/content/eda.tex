@@ -49,9 +49,57 @@ Presion\_dia  & 214 &  3.74 \\
     
 \end{itemize}
 
-\subsection{Codificación}
+% \begin{table}[ht]
+% \centering
+% \caption{Matriz de Covarianzas}
+% \begin{tabular}{lrrrrrrr}
+% \hline
+%  & Sexo & IMC & NSE & P. Sistólica & P. Diastólica & Edad & Edad$^2$ \\
+% \hline
+% Sexo        & 0.2478 & 0.2204 & -0.0620 & -1.1621 & -0.2881 & -0.1399 & -19.2921 \\
+% IMC             & 0.2204 & 50.6778 & -0.6506 & 4.7482 & 16.8272 & 4.4595 & 149.7596 \\
+% NSE        & -0.0620 & -0.6506 & 2.7162 & -0.7480 & -0.1138 & 2.4206 & 195.2670 \\
+% P. Sistólica    & -1.1621 & 4.7482 & -0.7480 & 310.5302 & 119.1105 & 120.5827 & 12153.9363 \\
+% P. Diastólica    & -0.2881 & 16.8272 & -0.1138 & 119.1105 & 118.9917 & 4.6559 & -432.9065 \\
+% Edad            & -0.1399 & 4.4595 & 2.4206 & 120.5827 & 4.6559 & 318.1681 & 31730.2601 \\
+% Edad$^2$        & -19.2921 & 149.7596 & 195.2670 & 12153.9363 & -432.9065 & 31730.2601 & 3250855.6534 \\
+% \hline
+% \end{tabular}   
+% \end{table}
 
-% TODO: Completar descripción de codificación de variables
-% - Detallar transformaciones aplicadas
-% - Explicar variables dummy o recodificación
-
+\begin{table}[ht]
+\centering
+\caption{Matriz de Correlaciones}
+\begin{tabular}{lrrrrrrr}
+\hline
+ & Sexo & IMC & NSE & P. Sistólica & P. Diastólica & Edad & Edad$^2$ \\
+\hline
+Sexo            & 1.0000 & 0.0622 & -0.0756 & -0.1325 & -0.0530 & -0.0158 & -0.0215 \\
+IMC             & 0.0622 & 1.0000 & -0.0555 & 0.0378 & 0.2167 & 0.0351 & 0.0117 \\
+NSE        & -0.0756 & -0.0555 & 1.0000 & -0.0258 & -0.0063 & 0.0823 & 0.0657 \\
+P. Sistólica    & -0.1325 & 0.0378 & -0.0258 & 1.0000 & 0.6196 & 0.3836 & 0.3825 \\
+P. Diastólica    & -0.0530 & 0.2167 & -0.0063 & 0.6196 & 1.0000 & 0.0239 & -0.0220 \\
+Edad            & -0.0158 & 0.0351 & 0.0823 & 0.3836 & 0.0239 & 1.0000 & 0.9866 \\
+Edad$^2$        & -0.0215 & 0.0117 & 0.0657 & 0.3825 & -0.0220 & 0.9866 & 1.0000 \\
+\hline
+\end{tabular}
+\end{table}
+ANALISIS DE CORRELACIONES: 
+\begin{figure}[H]
+\centering
+\caption{Distribución del colesterol Total}
+\includegraphics[width=0.8\textwidth]{img/histocol.png}
+\end{figure}
+ANALISIS DE LA DISTRIBUCION DEL COLESTEROL
+\begin{figure}[H]
+\centering
+\caption{Colesterol Total vs Edad}
+\includegraphics[width=0.8\textwidth]{img/edadvscol.png}
+\end{figure}
+ANALISIS DE LA RELACION ENTRE EDAD Y COLESTEROL
+\begin{figure}[H]
+\centering
+\caption{Colestero Total vs Edad por Sexo}
+\includegraphics[width=0.8\textwidth]{img/edadvscolsex.png}
+\end{figure}
+ANALISIS DE LA RELACION ENTRE EDAD Y COLESTEROL POR SEXO
