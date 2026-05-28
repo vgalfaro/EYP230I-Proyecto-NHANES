@@ -1,50 +1,155 @@
+
 library(foreign)
+library(dplyr)
+library(ggplot2)
 
-demo   <- read.xport("DEMO_L.xpt")
-body   <- read.xport("BMX_L.xpt")
-presion <- read.xport("BPXO_L.xpt")
-chol   <- read.xport("TCHOL_L.xpt")
+# 1. CARGA Y UNIÓN DE DATOS 
 
-# 2. Unir todo secuencialmente usando "SEQN"
-paso1 <- merge(demo, chol, by = "SEQN")
-paso2 <- merge(paso1, body, by = "SEQN")
-datos_finales <- merge(paso2, presion, by = "SEQN")
-
-# 3. Revisar las dimensiones (cuántos pacientes y cuántas variables quedaron)
-dim(datos_finales)
-
-# 4. Vemos la  cantidad total de valores faltantes en todo el dataset
-total_nas <- sum(is.na(datos_finales))
-print(paste("Total de datos faltantes en el dataset:", total_nas))
+demo    <- read.xport("DEMO_L.xpt")
+body    <- read.xport("BMX_L.xpt")
+chol    <- read.xport("TCHOL_L.xpt")
+pres    <- read.xport("BPXO_L.xpt")
 
 
-# 4.1 Vemos la cantidad de datos faltantes por cada columna (variable)
-nas_por_columna <- colSums(is.na(datos_finales))
-print("Datos faltantes por columna:")
-print(nas_por_columna[nas_por_columna > 0])
+# 2. LIMPIEZA INICIAL 
 
-# 4.2  Porcentaje de datos faltantes por cada columna
-porcentaje_nas <- colMeans(is.na(datos_finales)) * 100
-print("Porcentaje de datos faltantes por columna:")
-print(porcentaje_nas[porcentaje_nas > 0])
+# calcular promedio de mediciones de presiones diarias.
 
-# 5. Resumen estadístico general (incluye el conteo de NA al final de cada columna)
-summary(datos_finales)
+pres$promedio_sistolica <- rowMeans(pres[, c("BPXOSY1", "BPXOSY2", "BPXOSY3")])
 
-# 6. Ver opciones para tratar datos faltantes
+pres$promedio_diastolica<- rowMeans(pres[,c("BPXODI1","BPXODI2","BPXODI3")])
 
-# 6.A Opción de eliminar columna con al menos un datos faltante
-datos_completos <- na.omit(datos_finales)
-dim(datos_completos) 
-
-#Quedan muy pocos datos con esta
+# Unión secuencial indexada por "SEQN"
+datos_crudos <- demo %>%
+  inner_join(chol, by = "SEQN") %>%
+  inner_join(body, by = "SEQN") %>%
+  inner_join(pres, by = "SEQN")
 
 
-#6.B  Opción de reemplazar por la mediana 
-datos_imputados <- datos_finales
-if("LBXTC" %in% colnames(datos_imputados)) {
-  media_chol <- mean(datos_imputados$LBXTC, na.rm = TRUE) # na.rm = TRUE ignora los NAs para calcular la media
-  
-  # Reemplazar los NAs de esa columna por la media calculada
-  datos_imputados$LBXTC[is.na(datos_imputados$LBXTC)] <- media_chol
-}
+# Restringimos  edad a RIDAGEYR >= 18 años 
+# Seleccionamos únicamente las variables del modelo conceptual.
+
+datos_adultos <- datos_crudos %>%
+  filter(RIDAGEYR >= 18) %>%
+  select(SEQN, 
+         Colesterol = LBXTC, 
+         Edad = RIDAGEYR, 
+         Sexo = RIAGENDR, 
+         NSE_PIR = INDFMPIR,
+         IMC = BMXBMI,
+         Presion_sis = promedio_sistolica,
+         Presion_dia = promedio_diastolica)
+
+print("Dimensiones tras filtro de adultos:")
+dim(datos_adultos)
+
+
+# 3. REVISIÓN DE FALTANTES  Y CODIFICACIÓN
+
+# A. Diagnóstico de NAs por variable
+nas_resumen <- data.frame(
+  Total_NA = colSums(is.na(datos_adultos)),
+  Porcentaje_NA = round(colMeans(is.na(datos_adultos)) * 100, 2)
+)
+print("Resumen de datos faltantes:")
+print(nas_resumen)
+
+datos_limpios <- datos_adultos %>% na.omit()
+
+
+# B. Codificación de Variables
+# - El Sexo viene codificado como 1 y 2. Debemos transformarlo a Factor para que R no lo lea como continuo.
+# - Para el Nivel Socioeconómico (NSE_PIR), creamos una variable categórica.
+datos_limpios <- datos_limpios %>%
+  mutate(Sexo = Sexo - 1)
+
+#datos_limpios <- datos_limpios %>%
+#  mutate(
+#    Sexo = factor(Sexo, levels = c(0, 1), labels = c("Hombre", "Mujer")),
+#  )
+
+print("Datos finales listos para el EDA:")
+summary(datos_limpios)
+dim(datos_limpios)
+# 4. EDA
+
+#  Distribución Univariada de colesterol y circunferencia de cintura
+
+p1 <- ggplot(datos_limpios, aes(x = Colesterol)) + 
+  geom_histogram(bins = 30, fill = "steelblue", color = "white") +
+  theme_minimal() +
+  labs(x = "Colesterol (mg/dL)",
+       y = "Frecuencia")
+p1
+ggplot(datos_limpios, aes(x = Edad, y = Colesterol)) +
+  geom_point(alpha = 0.3, color = "gray30") +
+  geom_smooth(method = "loess", aes(color = "Promedio"), se = TRUE) +
+  scale_color_manual(values = c("Promedio" = "red")) +
+  theme_minimal() +
+  labs(x = "Edad", y = "Colesterol (mg/dL)",
+       color = "Leyenda") +
+  theme(
+    legend.position = c(0.80, 0.95),
+    legend.justification = c("left", "top"),
+    legend.background = element_blank(),
+    legend.box.background = element_blank(),
+    plot.title = element_text(hjust = 0.5)
+  )
+
+# Calculamos la matriz de correlación
+
+matriz_covariables <- data.frame(
+  datos_limpios$Sexo,
+  datos_limpios$IMC,
+  datos_limpios$NSE_PIR,
+  datos_limpios$Presion_sis,
+  datos_limpios$Presion_dia,
+  datos_limpios$Edad,
+  (datos_limpios$Edad)^2
+)
+
+cor(matriz_covariables)
+
+ggplot(datos_limpios, aes(x = Edad, y = Colesterol)) +
+  geom_point(
+    aes(color = factor(Sexo)),
+    alpha = 0.12,
+    size = 1.6,
+    show.legend = FALSE
+  ) +
+  geom_smooth(
+    aes(color = factor(Sexo), fill = factor(Sexo)),
+    method = "loess",
+    se = TRUE,
+    linewidth = 1.4,
+    alpha = 0.12,
+    key_glyph = "path"
+  ) +
+  scale_color_manual(
+    name = "Sexo",
+    values = c("0" = "orange", "1" = "blue"),
+    labels = c("0" = "Hombre", "1" = "Mujer")
+  ) +
+  scale_fill_manual(
+    values = c("0" = "orange", "1" = "blue"),
+    guide = "none"
+  ) +
+  guides(
+    color = guide_legend(
+      override.aes = list(
+        alpha = 1,
+        linewidth = 1.6
+      )
+    )
+  ) +
+  theme_minimal() +
+  labs(x = "Edad",
+    y = "Colesterol (mg/dL)"
+  ) +
+  theme(
+    legend.position = c(0.80, 0.95),
+    legend.justification = c("left", "top"),
+    legend.background = element_blank(),
+    legend.box.background = element_blank(),
+    plot.title = element_text(hjust = 0.5)
+  )
