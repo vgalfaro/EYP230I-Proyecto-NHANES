@@ -1,4 +1,3 @@
-
 library(foreign)
 library(dplyr)
 library(ggplot2)
@@ -10,7 +9,6 @@ body    <- read.xport("BMX_L.xpt")
 chol    <- read.xport("TCHOL_L.xpt")
 pres    <- read.xport("BPXO_L.xpt")
 
-
 # 2. LIMPIEZA INICIAL 
 
 # calcular promedio de mediciones de presiones diarias.
@@ -19,6 +17,11 @@ pres$promedio_sistolica <- rowMeans(pres[, c("BPXOSY1", "BPXOSY2", "BPXOSY3")])
 
 pres$promedio_diastolica<- rowMeans(pres[,c("BPXODI1","BPXODI2","BPXODI3")])
 
+
+sum(is.na(pres$promedio_sistolica))
+sum(is.na(pres$promedio_diastolica))
+
+
 # Unión secuencial indexada por "SEQN"
 datos_crudos <- demo %>%
   inner_join(chol, by = "SEQN") %>%
@@ -26,16 +29,17 @@ datos_crudos <- demo %>%
   inner_join(pres, by = "SEQN")
 
 
+
 # Restringimos  edad a RIDAGEYR >= 18 años 
 # Seleccionamos únicamente las variables del modelo conceptual.
 
+dim(datos_crudos)
 datos_adultos <- datos_crudos %>%
-  filter(RIDAGEYR >= 18) %>%
+  filter(RIDAGEYR >= 0) %>%
   select(SEQN, 
          Colesterol = LBXTC, 
          Edad = RIDAGEYR, 
          Sexo = RIAGENDR, 
-         NSE_PIR = INDFMPIR,
          IMC = BMXBMI,
          Presion_sis = promedio_sistolica,
          Presion_dia = promedio_diastolica)
@@ -43,6 +47,17 @@ datos_adultos <- datos_crudos %>%
 print("Dimensiones tras filtro de adultos:")
 dim(datos_adultos)
 
+##########################
+
+
+datos_limpios <- datos_adultos %>% na.omit()
+
+summary(datos_adultos)
+summary(datos_limpios)
+
+dim(datos_adultos)
+dim(datos_limpios)
+#########################
 
 # 3. REVISIÓN DE FALTANTES  Y CODIFICACIÓN
 
@@ -62,7 +77,7 @@ datos_limpios <- datos_adultos %>% na.omit()
 # - Para el Nivel Socioeconómico (NSE_PIR), creamos una variable categórica.
 datos_limpios <- datos_limpios %>%
   mutate(Sexo = Sexo - 1)
-
+datos_limpios$Edad <- datos_limpios$Edad - mean(datos_limpios$Edad)
 #datos_limpios <- datos_limpios %>%
 #  mutate(
 #    Sexo = factor(Sexo, levels = c(0, 1), labels = c("Hombre", "Mujer")),
@@ -153,3 +168,4 @@ ggplot(datos_limpios, aes(x = Edad, y = Colesterol)) +
     legend.box.background = element_blank(),
     plot.title = element_text(hjust = 0.5)
   )
+
