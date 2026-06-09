@@ -173,7 +173,14 @@ library(ggplot2)
     covariables$Edad <- covariables$Edad - mean(covariables$Edad)
     covariables$Edad2 <- (covariables$Edad)^2
     
-    # Revisamos las correlaciones entre las covariables independientes
+    # Codificamos el rango entre presiones para no tener colinealidad entre Dia y Sis
+    covariables$Rpres <- covariables$Sis - covariables$Dia
+    
+    # Revisamos las correlaciones
     cor(covariables %>% select(-Col))
+    
+    # Dropeamos Sis
+    covariables <- covariables %>% select(-Sis)
+    
   }
 }
