@@ -187,5 +187,5 @@ library(ggplot2)
   # Exportamos la matriz de covariables
   # Método básico y rápido
   write.csv(covariables, file = "covariables.csv", row.names = FALSE)
-  
 }
+
