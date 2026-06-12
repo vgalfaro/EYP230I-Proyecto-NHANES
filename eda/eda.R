@@ -65,7 +65,7 @@ library(ggplot2)
     
     # Rellenamos las presiones y el IMC con el promedio en cada edad
     datos <- datos_limpio %>%
-      group_by(Edad) %>%
+      group_by(Edad, Sexo) %>%
       mutate(
         across(
           c(Dia, Sis, IMC),
@@ -188,3 +188,4 @@ library(ggplot2)
   write.csv(covariables, file = "covariables.csv", row.names = FALSE)
 }
 
+summary(datos)
