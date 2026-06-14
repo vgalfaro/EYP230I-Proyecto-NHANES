@@ -160,3 +160,28 @@ library(lmtest)
   cor_red_M <- cor(select(covariables_M, -Col, -Sexo, -Edad2))
   vif_red_M <- diag(solve(cor_red_M))
 }
+
+##################
+# DATOS EXTREMOS #
+##################
+{
+  # Calculamos las distancias de Cook
+  cook_com <- cooks.distance(modelo_com)
+  cook_red <- cooks.distance(modelo_red)
+  
+  cook_com_H <- cooks.distance(modelo_com_H)
+  cook_red_H <- cooks.distance(modelo_red_H)
+  
+  cook_com_M <- cooks.distance(modelo_com_M)
+  cook_red_M <- cooks.distance(modelo_red_M)
+  
+  # Vemos cuantos datos son influyentes
+  influyentes_com <- which(cook_com > 1)
+  influyentes_red <- which(cook_red > 1)
+  
+  influyentes_com_H <- which(cook_com_H > 1)
+  influyentes_red_H <- which(cook_red_H > 1)
+  
+  influyentes_com_M <- which(cook_com_M > 1)
+  influyentes_red_M <- which(cook_red_M > 1)
+}
