@@ -101,12 +101,22 @@ library(ggplot2)
 # 4. EDA #
 ##########
 {
+  # Graficamos distribución de Colesterol
+  
+  hist(datos$Col,
+       xlab = "Colesterol total (mg/dL)",
+       ylab = "Frecuencia",
+       col   = "steelblue",
+       breaks = 50,
+       main = "")
+  
+  
   # Graficamos Edad vs Colesterol
   {
     ggplot(datos, aes(x = Edad, y = Col)) +
       geom_point(alpha = 0.3, color = "gray30") +
-      geom_smooth(method = "loess", aes(color = "Promedio"), se = TRUE) +
-      scale_color_manual(values = c("Promedio" = "red")) +
+      geom_smooth(method = "loess", aes(color = "LOESS"), se = TRUE) +
+      scale_color_manual(values = c("LOESS" = "red")) +
       theme_minimal() +
       labs(x = "Edad", y = "Colesterol (mg/dL)",
            color = "Leyenda") +
@@ -139,7 +149,7 @@ library(ggplot2)
       scale_color_manual(
         name = "Sexo",
         values = c("0" = "orange", "1" = "blue"),
-        labels = c("0" = "Hombre", "1" = "Mujer")
+        labels = c("0" = "LOESS Hombre", "1" = "LOESS Mujer")
       ) +
       scale_fill_manual(
         values = c("0" = "orange", "1" = "blue"),
@@ -166,7 +176,7 @@ library(ggplot2)
       )
   }
   
-  # Matriz de covariables y corrleacón
+  # Matriz de covariables y correleción
   {
     # Centramos la Edad para no tener colinealidad con Edad^2
     covariables <- datos
