@@ -26,6 +26,7 @@ library(ggplot2)
     inner_join(body, by = "SEQN") %>%
     inner_join(pres, by = "SEQN")
   
+  dim(datos_crudos)
   # Seleccionamos únicamente las variables del modelo conceptual.
   datos_modelo <- datos_crudos %>%
     select(SEQN, 
@@ -198,3 +199,5 @@ library(ggplot2)
 }
 
 summary(datos)
+
+dim(covariables)
