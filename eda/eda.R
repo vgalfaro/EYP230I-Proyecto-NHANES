@@ -36,7 +36,6 @@ library(ggplot2)
            Sis = promedio_sistolica,
            Dia = promedio_diastolica)
   
-  # Dimensiones tras filtro de adultos
   dim(datos_modelo)
 }
 
@@ -97,9 +96,9 @@ library(ggplot2)
   }
 }
 
-##########
-# 4. EDA #
-##########
+############
+# 4. EDA   #
+############
 {
   # Graficamos distribución de Colesterol
   

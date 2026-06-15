@@ -185,3 +185,31 @@ library(lmtest)
   influyentes_com_M <- which(cook_com_M > 1)
   influyentes_red_M <- which(cook_red_M > 1)
 }
+
+
+####################
+# GRÁFICOS ERRORES #
+####################
+{
+  plot(modelo_com)
+  plot(modelo_red)
+  
+  plot(modelo_com_H)
+  plot(modelo_red_H)
+  
+  plot(modelo_com_M)
+  plot(modelo_red_M)
+}
+
+################ 
+# SENSIBILIDAD #
+################
+
+# Creamos el dataset filtrando los valores de colesterol más altos
+datos_sensibilidad <- subset(covariables, Col <= 300)
+
+# Hacemos la regresión con los nuevos datos
+modelo_sensibilidad <- lm(Col ~ Edad + Sexo + IMC + Dia + Edad2 + Rpres, data = datos_sensibilidad)
+
+# Resultados
+summary(modelo_sensibilidad)
